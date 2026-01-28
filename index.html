@@ -1,35 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>test Menu Bookmarklet</title>
+  <title>Mod Menu Injector</title>
   <style>
     body {
-      background: #0b0b0b;
-      color: #0f0;
-      font-family: monospace;
+      background: #ffffff;
+      color: #000000;
+      font-family: system-ui, sans-serif;
       text-align: center;
-      padding-top: 50px;
+      padding-top: 60px;
     }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      margin: 15px;
+    }
+
     a {
       display: inline-block;
-      padding: 16px 28px;
-      background: #111;
-      color: #0f0;
+      padding: 14px 26px;
+      margin-top: 20px;
+      border: 2px solid #000;
+      color: #000;
       text-decoration: none;
-      border: 2px solid #0f0;
       font-size: 18px;
       cursor: grab;
+    }
+
+    a:hover {
+      background: #000;
+      color: #fff;
     }
   </style>
 </head>
 <body>
 
-<h1>test Menu</h1>
-<p>Drag this button to your bookmarks bar</p>
+<h1>Scratch Mod Menu Injector</h1>
+<p>Select a menu, then drag the button to your bookmarks bar.</p>
 
-<a href='javascript:(function(){fetch("https://raw.githubusercontent.com/EEEE842/test/main/injector.js").then(r=>r.text()).then(c=>eval(c));})();'>
-test
-</a>
+<select id="menu" onchange="update()">
+  <option value="https://raw.githubusercontent.com/EEEE842/test/main/test.sb3">
+    Nova Menu
+  </option>
+
+  <option value="https://raw.githubusercontent.com/EEEE842/test/main/another.sb3">
+    Another Menu
+  </option>
+
+  <option value="https://raw.githubusercontent.com/EEEE842/test/main/dev.sb3">
+    Dev / Test Menu
+  </option>
+</select>
+
+<br>
+
+<a id="bm">Inject Menu</a>
+
+<script>
+function update() {
+  const sb3 = document.getElementById("menu").value;
+
+  const bookmarklet =
+    `javascript:(function(){
+      fetch("https://raw.githubusercontent.com/EEEE842/test/main/injector.js")
+        .then(r=>r.text())
+        .then(code=>{
+          eval(code.replace(
+            /const PROJECT_URL =[^;]+;/,
+            'const PROJECT_URL = "' + sb3 + '";'
+          ));
+        });
+    })();`;
+
+  document.getElementById("bm").href = bookmarklet;
+}
+
+// init on load
+update();
+</script>
 
 </body>
 </html>
