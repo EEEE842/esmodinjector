@@ -22,27 +22,31 @@
       margin: 15px;
     }
 
-    a {
+    a.button {
       display: inline-block;
       padding: 14px 26px;
-      margin-top: 20px;
+      margin: 10px;
       border: 2px solid #000;
       color: #000;
       text-decoration: none;
       font-size: 18px;
-      cursor: grab;
+      cursor: pointer;
     }
 
-    a:hover {
+    a.button:hover {
       background: #000;
       color: #fff;
+    }
+
+    .footer {
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
 
 <h1>Scratch Mod Menu Injector</h1>
-<p>Select a menu, then drag the button to your bookmarks bar.</p>
+<p>Select a menu, then drag the inject button to your bookmarks bar.</p>
 
 <select id="menu" onchange="update()">
   <option value="https://raw.githubusercontent.com/EEEE842/test/main/test.sb3">
@@ -60,12 +64,19 @@
 
 <br>
 
-<a id="bm">Inject Menu</a>
+<a id="inject" class="button">Inject Menu</a>
+
+<div class="footer">
+  <a id="download" class="button" download>
+    Download SB3
+  </a>
+</div>
 
 <script>
 function update() {
   const sb3 = document.getElementById("menu").value;
 
+  // Bookmarklet
   const bookmarklet =
     `javascript:(function(){
       fetch("https://raw.githubusercontent.com/EEEE842/test/main/injector.js")
@@ -78,10 +89,13 @@ function update() {
         });
     })();`;
 
-  document.getElementById("bm").href = bookmarklet;
+  document.getElementById("inject").href = bookmarklet;
+
+  // Download button
+  document.getElementById("download").href = sb3;
 }
 
-// init on load
+// init
 update();
 </script>
 
