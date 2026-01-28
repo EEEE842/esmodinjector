@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>test Menu Bookmarklet</title>
+  <style>
+    body {
+      background:#0b0b0b;
+      color:#0f0;
+      font-family:monospace;
+      text-align:center;
+    }
+    a {
+      display:inline-block;
+      padding:15px 25px;
+      background:#111;
+      color:#0f0;
+      text-decoration:none;
+      border:1px solid #0f0;
+      margin-top:20px;
+      cursor:grab;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Nova Menu</h1>
+<p>Drag the button below to your bookmarks bar.</p>
+
+<a id="bm" href="#">Nova Menu</a>
+
+<script>
+fetch("bookmarklet.js")
+  .then(r=>r.text())
+  .then(t=>{
+    document.getElementById("bm").href = t;
+  });
+</script>
+
+</body>
+</html>
