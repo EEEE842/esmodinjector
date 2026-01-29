@@ -1,6 +1,6 @@
 (function () {
     const PROJECT_URL =
-        "https://raw.githubusercontent.com/EEEE842/test/main/test.sb3";
+        "https://raw.githubusercontent.com/EEEE842/namehereinjectablemenu/main/test.sb3";
 
     function getScratchVM() {
         if (location.hostname === "turbowarp.org") return window.vm;
