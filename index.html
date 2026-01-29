@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mod Menu Injector</title>
+  <title>ES Mod Injector</title>
   <style>
     body {
       background: #ffffff;
@@ -12,8 +12,12 @@
     }
 
     h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
+      font-size: 36px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-bottom: 20px;
     }
 
     select {
@@ -24,7 +28,7 @@
 
     a.button {
       display: inline-block;
-      padding: 14px 26px;
+      padding: 14px 28px;
       margin: 10px;
       border: 2px solid #000;
       color: #000;
@@ -45,21 +49,23 @@
 </head>
 <body>
 
-<h1>Scratch Mod Menu Injector</h1>
+<h1>ES Mod Injector</h1>
 <p>Select a menu, then drag the inject button to your bookmarks bar.</p>
 
 <select id="menu" onchange="update()">
+
   <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/test.sb3">
     Nova Menu
   </option>
 
-  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/another.sb3">
-    Another Menu
+  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/dev.sb3">
+    Dev Menu
   </option>
 
-  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/dev.sb3">
-    Dev / Test Menu
+  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/rd.sb3">
+    Robot Destructor Menu
   </option>
+
 </select>
 
 <br>
@@ -67,35 +73,32 @@
 <a id="inject" class="button">Inject Menu</a>
 
 <div class="footer">
-  <a id="download" class="button" download>
-    Download SB3
-  </a>
+  <a id="download" class="button" download>Download SB3</a>
 </div>
 
 <script>
 function update() {
   const sb3 = document.getElementById("menu").value;
 
-  // Bookmarklet
+  // Single-line, browser-safe bookmarklet
   const bookmarklet =
-    `javascript:(function(){
-      fetch("https://raw.githubusercontent.com/EEEE842/esmodinjector/main/injector.js")
-        .then(r=>r.text())
-        .then(code=>{
-          eval(code.replace(
-            /const PROJECT_URL =[^;]+;/,
-            'const PROJECT_URL = "' + sb3 + '";'
-          ));
-        });
-    })();`;
+    "javascript:(function(){"+
+    "alert('Loading injection...');"+
+    "fetch('https://raw.githubusercontent.com/EEEE842/esmodinjector/main/injector.js')"+
+    ".then(r=>r.text())"+
+    ".then(code=>{"+
+      "eval(code.replace(/const PROJECT_URL =[^;]+;/,"+
+      "'const PROJECT_URL = \"" + sb3 + "\";'));"+
+      "alert('Injection complete!');"+
+    "})"+
+    ".catch(()=>alert('Injection failed!'));"+
+    "})();";
 
   document.getElementById("inject").href = bookmarklet;
-
-  // Download button
   document.getElementById("download").href = sb3;
 }
 
-// init
+// init on load
 update();
 </script>
 
