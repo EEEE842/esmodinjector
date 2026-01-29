@@ -1,62 +1,57 @@
-(function(){
+(function () {
+    const PROJECT_URL = window.ES_SELECTED_SB3;
 
-const PROJECT_URL = window.ES_SELECTED_SB3;
-if(!PROJECT_URL){
-  alert("No SB3 selected");
-  return;
-}
+    function getVM() {
+        // TurboWarp
+        if (window.vm) return window.vm;
+        if (window.__TW_VM__) return window.__TW_VM__;
 
-function findVM(){
-  // TurboWarp
-  if (window.location.hostname.includes("turbowarp.org")) {
-    if (window.vm) return window.vm;
-  }
+        // Scratch (React)
+        const app = document.getElementById("app");
+        if (app) {
+            // React 18+
+            const key = Object.keys(app).find(k => k.startsWith("__reactContainer"));
+            if (key) {
+                try {
+                    let fiber = app[key];
+                    let node = fiber.child;
+                    while (node) {
+                        if (node.memoizedProps?.store) {
+                            return node.memoizedProps.store.getState().scratchGui.vm;
+                        }
+                        node = node.child;
+                    }
+                } catch(e){}
+            }
 
-  // Scratch editor
-  if (window.location.hostname.includes("scratch.mit.edu")) {
-    const app = document.getElementById("app");
-    if (!app) return null;
+            // React legacy
+            if (app._reactRootContainer) {
+                try {
+                    const store = app._reactRootContainer._internalRoot.current.child.pendingProps.store;
+                    return store.getState().scratchGui.vm;
+                } catch(e){}
+            }
+        }
 
-    // React Fiber
-    const key = Object.keys(app).find(k => k.startsWith("__reactContainer"));
-    if (key) {
-      try{
-        const fiber = app[key];
-        const store = fiber.child?.memoizedProps?.store;
-        if (store) return store.getState().scratchGui.vm;
-      }catch{}
+        return null;
     }
 
-    // React root fallback
-    if (app._reactRootContainer) {
-      try{
-        const store = app._reactRootContainer._internalRoot.current.child.pendingProps.store;
-        return store.getState().scratchGui.vm;
-      }catch{}
+    alert("loading injection");
+
+    const vm = getVM();
+    if (!vm) {
+        alert("Scratch/TurboWarp VM not found");
+        return;
     }
-  }
 
-  return null;
-}
+    vm.runtime.canAddCloudVariable = () => true;
 
-const vm = findVM();
-
-if(!vm){
-  alert("VM not found (Scratch/TurboWarp)");
-  return;
-}
-
-alert("VM found — injecting");
-
-vm.runtime.canAddCloudVariable = () => true;
-
-fetch(PROJECT_URL)
-  .then(r => r.arrayBuffer())
-  .then(buf => vm.loadProject(buf))
-  .then(() => alert("Injection complete"))
-  .catch(e=>{
-    console.error(e);
-    alert("Injection failed");
-  });
-
+    fetch(PROJECT_URL)
+        .then(r => r.arrayBuffer())
+        .then(buf => vm.loadProject(buf))
+        .then(() => alert("injection complete"))
+        .catch(e => {
+            alert("Injection failed");
+            console.error(e);
+        });
 })();
