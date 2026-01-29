@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html>
-<body style="background:#000;color:#0f0;font-family:monospace">
-
-<h2>Nova Menu Injector Generator</h2>
-
-<input id="url" style="width:100%"
-value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/test.sb3">
-
-<button onclick="gen()">Generate</button>
-
-<textarea id="out" style="width:100%;height:300px"></textarea>
-
-<script>
-function gen() {
-  fetch("injector.js")
-    .then(r => r.text())
-    .then(t => {
-      out.value = t.replace(
-        /const PROJECT_URL =[^;]+;/,
-        'const PROJECT_URL = "' + url.value + '";'
-      );
-    });
-}
-</script>
-
-</body>
-</html>
+bookmarklet.value =
+`javascript:(function(){
+window.ES_SELECTED_SB3="${menu.sb3}";
+var s=document.createElement("script");
+s.src="https://raw.githubusercontent.com/YOURNAME/esmodinjector/main/injector.js";
+document.body.appendChild(s);
+})();`;
