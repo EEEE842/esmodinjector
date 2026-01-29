@@ -1,3 +1,4 @@
+alert("injector.js loaded");
 (function () {
     const PROJECT_URL = window.ES_SELECTED_SB3;
 
