@@ -1,3 +1,6 @@
-the website: https://eeee842.github.io/esmodinjector/  so you can expect to use it
+E's Mod Injector
 -
-dont use the release its outdated and its shit it barely has anything good
+E's Mod Injector features 3 mods for RD, first is E Menu, second is an RD bot, third is placeholder.
+Website is here https://eeee842.github.io/esmodinjector/
+
+"Don't use the release it's outdated and it's shit"
