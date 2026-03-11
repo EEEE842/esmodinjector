@@ -1,4 +1,4 @@
-E's Mod Injector
+E's Mod Injector pirl clint
 -
 E's Mod Injector features 3 mods for RD, first is E Menu, second is an RD bot, third is placeholder.
 Website is here https://eeee842.github.io/esmodinjector/
